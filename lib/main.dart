@@ -1,4 +1,7 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:curie/screens/elements/elements_screen.dart';
+import 'package:curie/screens/home/home_screen.dart';
+import 'package:curie/screens/scientists/scientists_screen.dart';
+import 'package:curie/widgets/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -46,50 +49,30 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 1;
+  final PageController _pageController = PageController(initialPage: 1);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: StyleProvider(
-      style: Style(),
-      child: ConvexAppBar(
-        items: [
-          TabItem(
-              icon: Image.asset('assets/icons/elementsCurie.png'),
-              title: "Elements"),
-          TabItem(
-              icon: Image.asset('assets/icons/homeCurie.png'), title: "Home"),
-          TabItem(
-              icon: Image.asset('assets/icons/scientistsCurie.png'),
-              title: "Scientists")
-        ],
-        onTap: (index) => {
-          setState(() {
-            _selectedIndex = index;
-          }),
-        },
-        initialActiveIndex: _selectedIndex,
-        backgroundColor: Colors.white,
-      ),
-    ));
-  }
-}
-
-class Style extends StyleHook {
-  @override
-  // TODO: implement activeIconMargin
-  double get activeIconMargin => 10;
-
-  @override
-  // TODO: implement activeIconSize
-  double get activeIconSize => 50;
-
-  @override
-  // TODO: implement iconSize
-  double? get iconSize => null;
-
-  @override
-  TextStyle textStyle(Color color, _) {
-    return const TextStyle(fontSize: 10, color: Colors.black);
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          children: const [ElementsScreen(), HomeScreen(), ScientistsScreen()],
+        ),
+        bottomNavigationBar: ConvexBottomBar(
+            selectedIndex: _selectedIndex,
+            onItemTapped: (index) =>
+            {
+              setState(() {
+                _selectedIndex = index;
+                _pageController.animateToPage(
+                    index, duration: const Duration(milliseconds: 300),
+                    curve: Curves.ease);
+              }),
+            }));
   }
 }
