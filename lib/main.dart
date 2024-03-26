@@ -61,6 +61,7 @@ class _HomeState extends State<Home> {
               _selectedIndex = index;
             });
           },
+          physics: const NeverScrollableScrollPhysics(), // Future: remove this and see why _selectedIndex update is not reflecting in ConvexBottomBar
           children: const [ElementsScreen(), HomeScreen(), ScientistsScreen()],
         ),
         bottomNavigationBar: ConvexBottomBar(
