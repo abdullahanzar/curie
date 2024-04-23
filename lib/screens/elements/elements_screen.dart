@@ -31,6 +31,7 @@ class _ElementsScreenState extends State<ElementsScreen> {
               itemBuilder: (context, index) {
                 final element = elements[index];
                 return ElementCard(
+                  element: element,
                   atomicNumber: element.atomicNumber,
                   symbol: element.symbol,
                   name: element.name,
